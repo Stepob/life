@@ -10,12 +10,9 @@ public class LifeFrame extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        //Add the ubiquitous "Hello World" label.
-        JLabel label1 = new JLabel("Hello World");
-        JLabel label2 = new JLabel("Ciao Mondo");
-        getContentPane().add(label1);
-        getContentPane().add(label2);
+        getContentPane().setLayout(new BorderLayout());
 
+        getContentPane().add(new LifeCanvas(false), BorderLayout.CENTER);
 
         setJMenuBar(new LifeMenu());
 
