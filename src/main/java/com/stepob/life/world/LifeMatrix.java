@@ -9,10 +9,13 @@ public class LifeMatrix {
     private int cellColumns = 80;
     private int cellSize = 10;
 
+    private int x = 0;
+    private int y = 0;
+
     private int[][] matrix = new int[cellRows][cellColumns];
 
     public LifeMatrix() {
-        initMatrix();
+        simpleInitMatrix(x, y);
     }
 
     private void initMatrix() {
@@ -24,8 +27,24 @@ public class LifeMatrix {
         }
     }
 
+    private void simpleInitMatrix(int x, int y) {
+        for (int i = 0; i < cellRows; i++) {
+            for (int j = 0; j < cellColumns; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+        matrix[x][y] = 1;
+    }
+
+    public void nextGen() {
+        x = x + 1;
+        y = y + 1;
+        simpleInitMatrix(x, y);
+    }
+
+
     public void paint(Graphics2D g2) {
-        initMatrix();
+
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
                 if (matrix[i][j] == 1) {

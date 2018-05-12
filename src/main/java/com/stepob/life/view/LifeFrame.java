@@ -2,17 +2,36 @@ package com.stepob.life.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LifeFrame extends JFrame {
+
+    LifeCanvas lifeCanvas;
 
     public LifeFrame(String title) throws HeadlessException {
         super(title);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        lifeCanvas = new LifeCanvas(false);
+
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        Thread t = new Thread(lifeCanvas);
+                        t.start();
+                    }
+                }
+        );
+
         getContentPane().setLayout(new BorderLayout());
 
-        getContentPane().add(new LifeCanvas(false), BorderLayout.CENTER);
+        getContentPane().add(lifeCanvas, BorderLayout.CENTER);
+
+        getContentPane().add(startButton, BorderLayout.SOUTH);
+
 
         setJMenuBar(new LifeMenu());
 
