@@ -12,6 +12,10 @@ public class LifeMatrix {
     private int[][] matrix = new int[cellRows][cellColumns];
 
     public LifeMatrix() {
+        initMatrix();
+    }
+
+    private void initMatrix() {
         Random r = new Random();
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
@@ -21,6 +25,7 @@ public class LifeMatrix {
     }
 
     public void paint(Graphics2D g2) {
+        initMatrix();
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
                 if (matrix[i][j] == 1) {
