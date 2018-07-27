@@ -37,7 +37,7 @@ public class LifeCanvas extends JPanel implements Runnable{
 
         while (true){
 
-            m.nextGen();
+            m.nextGen2();
             repaint();
 
             timeDiff = System.currentTimeMillis() - beforeTime;

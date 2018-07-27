@@ -29,6 +29,8 @@ class LifeMenu extends JMenuBar {
             }
         });
 
+
+
         file.add(exit);
         help.add(about);
         add(file);
