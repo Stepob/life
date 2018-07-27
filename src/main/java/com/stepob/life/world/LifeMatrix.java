@@ -57,39 +57,24 @@ public class LifeMatrix {
                             if (j != 79) {
 
 
+                                int k = matrix[i][(s+
+                                        matrix[i][j - 1] +
+                                        matrix[i + 1][(j - 1 + cellColumns) % cellColumns] +
+                                        matrix[i + 1][j] +
+                                        matrix[i + 1][j - 1] +
+                                        matrix[fixRowIndex(i - 1)][j - 1] +
+                                        matrix[i - 1][j] +
+                                        matrix[i - 1][j + 1];
+
+
                                 if (matrix[i][j] == 1) {
-                                    int k = -1;
-
-                                    for (int o = -1; o < 2; o++) {
-                                        for (int p = -1; p < 2; p++) {
-                                            if (matrix[i + o][j + p] == 1) {
-                                                k++;
-                                            }
-                                        }
-                                        System.out.print(k);
-                                        if (k < 2) {
-                                            matrix[i][j] = 2;
-                                        } else if (k == 2) {
-                                            matrix[i][j] = 1;
-                                        } else if (k == 3) {
-                                            matrix[i][j] = 1;
-                                        } else {
-                                            matrix[i][j] = 2;
-                                        }
 
 
-                                    }
+                                    matrix[i][j] = regoleCellaViva(k);
 
-                                }
-                                if (matrix[i][j] != 1) {
-                                    int k2 = 0;
-                                    for (int o = -1; o < 2; o++) {
-                                        for (int p = -1; p < 2; p++) {
-                                            if (matrix[i + o][j + p] == 1) {
-                                                k2++;
-                                            }
-                                        }
-                                    }
+
+                                } else (matrix[i][j] != 1) {
+
                                     System.out.print(k2);
                                     if (k2 == 3) {
                                         matrix[i][j] = 1;
@@ -103,6 +88,23 @@ public class LifeMatrix {
 
             }
         }
+    }
+
+    private int fixRowIndex(int index) {
+        return index % cellRows;
+    }
+
+
+    private int regoleCellaViva(int k) {
+        System.out.print(k);
+        if (k < 2) {
+            return 2;
+        } else if (k == 2) {
+            return 1;
+        } else if (k == 3) {
+            return 1;
+        }
+        return 2;
     }
 
 
