@@ -27,9 +27,17 @@ public class LifeMatrix {
         Random r = new Random();
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
-                matrix[i][j] = r.nextInt(5);
+                matrix[i][j] = r.nextInt(15);
             }
         }
+        for (int i = 0; i < cellRows; i++) {
+            for (int j = 0; j < cellColumns; j++) {
+                if (matrix[i][j] != 1) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
     }
 
    /*  private void simpleInitMatrix(int x, int y) {
@@ -48,65 +56,60 @@ public class LifeMatrix {
     }*/
 
     public void nextGen2() {
+
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
 
-                if (i != 0) {
-                    if (i != 59) {
-                        if (j != 0) {
-                            if (j != 79) {
+
+                int k = matrix[i][fixColumnIndex(j + 1)] +
+                        matrix[i][fixColumnIndex(j - 1)] +
+                        matrix[fixRowIndex(i + 1)][fixColumnIndex(j - 1)] +
+                        matrix[fixRowIndex(i + 1)][j] +
+                        matrix[fixRowIndex(i + 1)][fixColumnIndex(j + 1)] +
+                        matrix[fixRowIndex(i - 1)][fixColumnIndex(j - 1)] +
+                        matrix[fixRowIndex(i - 1)][j] +
+                        matrix[fixRowIndex(i - 1)][fixColumnIndex(j + 1)];
 
 
-                                int k = matrix[i][(s+
-                                        matrix[i][j - 1] +
-                                        matrix[i + 1][(j - 1 + cellColumns) % cellColumns] +
-                                        matrix[i + 1][j] +
-                                        matrix[i + 1][j - 1] +
-                                        matrix[fixRowIndex(i - 1)][j - 1] +
-                                        matrix[i - 1][j] +
-                                        matrix[i - 1][j + 1];
-
-
-                                if (matrix[i][j] == 1) {
-
-
-                                    matrix[i][j] = regoleCellaViva(k);
-
-
-                                } else (matrix[i][j] != 1) {
-
-                                    System.out.print(k2);
-                                    if (k2 == 3) {
-                                        matrix[i][j] = 1;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (matrix[i][j] == 1) {
+                    matrix[i][j] = regoleCellaViva(k);
                 }
-
-
+                else {
+                    matrix[i][j] = regoleCellaMorta(k);
+                }
+                if (k == 3) {
+                    matrix[i][j] = 1;
+                }
             }
         }
     }
 
+
     private int fixRowIndex(int index) {
-        return index % cellRows;
+        return (index + cellRows) % cellRows;
     }
 
+    private int fixColumnIndex(int index) {
+        return (index + cellColumns) % cellColumns;
+    }
 
     private int regoleCellaViva(int k) {
-        System.out.print(k);
         if (k < 2) {
-            return 2;
+            return 0;
         } else if (k == 2) {
             return 1;
         } else if (k == 3) {
             return 1;
         }
-        return 2;
+        return 0;
     }
 
+    private int regoleCellaMorta(int k) {
+        if (k == 3) {
+            return 1;
+        }
+        return 0;
+    }
 
     public void paint(Graphics2D g2) {
 
@@ -114,7 +117,11 @@ public class LifeMatrix {
             for (int j = 0; j < cellColumns; j++) {
                 if (matrix[i][j] == 1) {
                     g2.setPaint(Color.BLUE);
-                    g2.draw(new Rectangle2D.Double(j * cellSize, i * cellSize, cellSize, cellSize));
+
+                    g2.fill(new Rectangle2D.Float(j * cellSize, i * cellSize, cellSize, cellSize));
+
+                    g2.setPaint(Color.black);
+                    g2.draw(new Rectangle2D.Float(j * cellSize, i * cellSize, cellSize, cellSize));
                 }
             }
         }
