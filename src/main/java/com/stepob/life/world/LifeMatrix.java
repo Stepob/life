@@ -5,6 +5,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class LifeMatrix {
+
+    static {
+        theInstance = new LifeMatrix();
+    }
+
+    private static LifeMatrix theInstance;
+
     private int cellRows = 60;
     private int cellColumns = 80;
     private int cellSize = 10;
@@ -15,11 +22,11 @@ public class LifeMatrix {
 
     private int[][] matrix = new int[cellRows][cellColumns];
 
-    /*public LifeMatrix() {
-        simpleInitMatrix(x, y);
-    }*/
+    public static LifeMatrix getInstance(){
+        return theInstance;
+    }
 
-    public LifeMatrix() {
+    private LifeMatrix() {
         initMatrix();
     }
 
@@ -38,6 +45,27 @@ public class LifeMatrix {
             }
         }
 
+    }
+
+    public void clearMatrix() {
+        for (int i = 0; i < cellRows; i++) {
+            for (int j = 0; j < cellColumns; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    public int toggleCell(int x, int y){
+        if(matrix[x][y] == 1){
+            matrix[x][y] = 0;
+        } else {
+            matrix[x][y] = 1;
+        }
+        return matrix[x][y];
+    }
+
+    public int getCellSize() {
+        return cellSize;
     }
 
    /*  private void simpleInitMatrix(int x, int y) {

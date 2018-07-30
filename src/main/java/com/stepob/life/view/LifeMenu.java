@@ -1,5 +1,7 @@
 package com.stepob.life.view;
 
+import com.stepob.life.world.LifeMatrix;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +21,16 @@ class LifeMenu extends JMenuBar {
             }
         });
 
+        JMenu world = new JMenu("World");
+        file.setMnemonic(KeyEvent.VK_W);
+
+        JMenuItem clear = new JMenuItem("Clear");
+        clear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                LifeMatrix.getInstance().clearMatrix();
+            }
+        });
+
         JMenu help = new JMenu("Help");
         file.setMnemonic(KeyEvent.VK_H);
 
@@ -29,11 +41,11 @@ class LifeMenu extends JMenuBar {
             }
         });
 
-
-
         file.add(exit);
+        world.add(clear);
         help.add(about);
         add(file);
+        add(world);
         add(help);
 
     }

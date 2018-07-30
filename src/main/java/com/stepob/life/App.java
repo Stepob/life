@@ -2,20 +2,16 @@ package com.stepob.life;
 
 import com.stepob.life.view.LifeFrame;
 
-import java.awt.*;
-
 /**
  * Hello world!
- *
  */
 public class App {
 
-
     private static void createAndShowGUI() {
-        LifeFrame lifeFrame = new LifeFrame("Stepob - Life");
+        new LifeFrame("Stepob - Life");
     }
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
 
         javax.swing.SwingUtilities.invokeLater(
                 new Runnable() {

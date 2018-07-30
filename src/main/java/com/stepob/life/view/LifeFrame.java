@@ -1,5 +1,7 @@
 package com.stepob.life.view;
 
+import com.stepob.life.world.LifeMatrix;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class LifeFrame extends JFrame {
 
-    LifeCanvas lifeCanvas;
+    private LifeCanvas lifeCanvas;
 
     public LifeFrame(String title) throws HeadlessException {
         super(title);
