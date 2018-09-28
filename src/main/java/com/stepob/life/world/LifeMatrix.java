@@ -30,7 +30,7 @@ public class LifeMatrix {
         initMatrix();
     }
 
-    private void initMatrix() {
+    public void initMatrix() {
         Random r = new Random();
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {

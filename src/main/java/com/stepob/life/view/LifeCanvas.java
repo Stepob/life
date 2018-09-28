@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 
 public class LifeCanvas extends JPanel implements Runnable, MouseListener {
 
+    private boolean isRunning = true;
+
     private LifeMatrix m = LifeMatrix.getInstance();
 
     public LifeCanvas(boolean isDoubleBuffered) {
@@ -38,8 +40,9 @@ public class LifeCanvas extends JPanel implements Runnable, MouseListener {
 
         beforeTime = System.currentTimeMillis();
 
+        isRunning = true;
 
-        while (true) {
+        while (isRunning) {
 
             m.nextGen2();
             repaint();
@@ -59,6 +62,10 @@ public class LifeCanvas extends JPanel implements Runnable, MouseListener {
 
             beforeTime = System.currentTimeMillis();
         }
+    }
+
+    public void stop(){
+        isRunning = false;
     }
 
     public void mouseClicked(MouseEvent e) {

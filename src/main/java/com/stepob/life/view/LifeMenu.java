@@ -9,7 +9,10 @@ import java.awt.event.KeyEvent;
 
 class LifeMenu extends JMenuBar {
 
-    LifeMenu() {
+    private LifeCanvas lifeCanvas;
+
+    LifeMenu(final LifeCanvas lifeCanvas) {
+        this.lifeCanvas = lifeCanvas;
 
         JMenu file = new JMenu("File");
         file.setMnemonic(KeyEvent.VK_F);
@@ -28,6 +31,7 @@ class LifeMenu extends JMenuBar {
         clear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 LifeMatrix.getInstance().clearMatrix();
+                lifeCanvas.repaint();
             }
         });
 
