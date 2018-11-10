@@ -1,18 +1,25 @@
 package com.stepob.life.view;
 
 import com.stepob.life.world.LifeMatrix;
+import com.sun.org.apache.bcel.internal.generic.LMUL;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class LifeFrame extends JFrame {
+public class LifeFrame extends JFrame implements PropertyChangeListener {
 
     private LifeCanvas lifeCanvas;
 
+    private JLabel generationLabel = new JLabel("TEST");
+
     public LifeFrame(String title) throws HeadlessException {
         super(title);
+
+        LifeMatrix.getInstance().addChangeListener(this);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +75,10 @@ public class LifeFrame extends JFrame {
 
         getContentPane().setLayout(new BorderLayout());
 
+        JPanel northPanel = new JPanel(new GridLayout(1, 1));
+        northPanel.add(generationLabel);
+        getContentPane().add(northPanel, BorderLayout.NORTH);
+
         getContentPane().add(lifeCanvas, BorderLayout.CENTER);
 
         JPanel southPanel = new JPanel(new GridLayout(1, 5));
@@ -85,5 +96,11 @@ public class LifeFrame extends JFrame {
         //Display the window.
         pack();
         setVisible(true);
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals(LifeMatrix.GENERATION_NUMBER)){
+            generationLabel.setText("Generation number: " + evt.getNewValue());
+        }
     }
 }

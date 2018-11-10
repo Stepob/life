@@ -2,6 +2,10 @@ package com.stepob.life.world;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class LifeMatrix {
@@ -11,6 +15,12 @@ public class LifeMatrix {
     }
 
     private static LifeMatrix theInstance;
+
+    private List<PropertyChangeListener> listener = new ArrayList<PropertyChangeListener>();
+
+    public static final String GENERATION_NUMBER = "genNumber";
+
+    private int genNumber = 0;
 
     private int cellRows = 60;
     private int cellColumns = 80;
@@ -22,7 +32,7 @@ public class LifeMatrix {
 
     private int[][] matrix = new int[cellRows][cellColumns];
 
-    public static LifeMatrix getInstance(){
+    public static LifeMatrix getInstance() {
         return theInstance;
     }
 
@@ -31,6 +41,9 @@ public class LifeMatrix {
     }
 
     public void initMatrix() {
+
+        genNumber = 0;
+
         Random r = new Random();
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
@@ -48,6 +61,9 @@ public class LifeMatrix {
     }
 
     public void clearMatrix() {
+
+        genNumber = 0;
+
         for (int i = 0; i < cellRows; i++) {
             for (int j = 0; j < cellColumns; j++) {
                 matrix[i][j] = 0;
@@ -55,8 +71,8 @@ public class LifeMatrix {
         }
     }
 
-    public int toggleCell(int x, int y){
-        if(matrix[x][y] == 1){
+    public int toggleCell(int x, int y) {
+        if (matrix[x][y] == 1) {
             matrix[x][y] = 0;
         } else {
             matrix[x][y] = 1;
@@ -66,6 +82,10 @@ public class LifeMatrix {
 
     public int getCellSize() {
         return cellSize;
+    }
+
+    public int getGenNumber() {
+        return genNumber;
     }
 
    /*  private void simpleInitMatrix(int x, int y) {
@@ -101,8 +121,7 @@ public class LifeMatrix {
 
                 if (matrix[i][j] == 1) {
                     matrix[i][j] = regoleCellaViva(k);
-                }
-                else {
+                } else {
                     matrix[i][j] = regoleCellaMorta(k);
                 }
                 if (k == 3) {
@@ -110,8 +129,13 @@ public class LifeMatrix {
                 }
             }
         }
-    }
 
+        notifyListeners(
+                this,
+                GENERATION_NUMBER,
+                this.genNumber,
+                this.genNumber++);
+    }
 
     private int fixRowIndex(int index) {
         return (index + cellRows) % cellRows;
@@ -154,4 +178,15 @@ public class LifeMatrix {
             }
         }
     }
+
+    private void notifyListeners(Object object, String property, int oldValue, int newValue) {
+        for (PropertyChangeListener name : listener) {
+            name.propertyChange(new PropertyChangeEvent(object, property, oldValue, newValue));
+        }
+    }
+
+    public void addChangeListener(PropertyChangeListener newListener) {
+        listener.add(newListener);
+    }
+
 }
